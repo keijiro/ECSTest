@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "com.unity.incrementalcompiler": "0.0.42-preview.1",
+    "com.unity.entities": "0.0.12-preview.5"
+  },
+  "registry": "https://packages.unity.com"
+}
