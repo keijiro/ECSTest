@@ -5,10 +5,6 @@ using Unity.Transforms;
 public partial struct RotationSystem : ISystem
 {
     [BurstCompile]
-    public void OnCreate(ref SystemState state)
-      => state.RequireForUpdate<Execute.MainThread>();
-
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         var dt = SystemAPI.Time.DeltaTime;
