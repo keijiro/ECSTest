@@ -8,8 +8,15 @@ public partial struct RotationSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         var dt = SystemAPI.Time.DeltaTime;
-
-        foreach (var (xform, speed) in SystemAPI.Query<RefRW<LocalTransform>, RefRO<RotationSpeed>>())
-            xform.ValueRW = xform.ValueRO.RotateY(speed.ValueRO.Speed * dt);
+        foreach (var rot in SystemAPI.Query<RotationAspect>()) rot.Rotate(dt);
     }
+}
+
+readonly partial struct RotationAspect : IAspect
+{
+    readonly RefRW<LocalTransform> _xform;
+    readonly RefRO<RotationSpeed> _speed;
+
+    public void Rotate(float dt)
+      => _xform.ValueRW = _xform.ValueRO.RotateY(_speed.ValueRO.Speed * dt);
 }
