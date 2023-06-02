@@ -4,10 +4,8 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-public partial struct SpawnSystem : ISystem
+public partial struct SpawnerSystem : ISystem
 {
-    bool _spawned;
-
     [BurstCompile]
     public void OnCreate(ref SystemState state)
       => state.RequireForUpdate<Spawner>();
@@ -15,8 +13,6 @@ public partial struct SpawnSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        if (_spawned) return;
-
         var data = SystemAPI.GetSingleton<Spawner>();
         var prefab = data.Prefab;
         var instances = state.EntityManager.Instantiate(prefab, data.SpawnCount, Allocator.Temp);
@@ -28,6 +24,6 @@ public partial struct SpawnSystem : ISystem
             xform.ValueRW.Position = rnd.NextFloat3(-5, 5);
         }
 
-        _spawned = true;
+        state.Enabled = false;
     }
 }

@@ -15,8 +15,8 @@ public partial struct RotationSystem : ISystem
 readonly partial struct RotationAspect : IAspect
 {
     readonly RefRW<LocalTransform> _xform;
-    readonly RefRO<RotationSpeed> _speed;
+    readonly RefRO<Rotation> _rotation;
 
     public void Rotate(float dt)
-      => _xform.ValueRW = _xform.ValueRO.RotateY(_speed.ValueRO.Speed * dt);
+      => _xform.ValueRW = _xform.ValueRO.RotateY(_rotation.ValueRO.Speed * dt);
 }
