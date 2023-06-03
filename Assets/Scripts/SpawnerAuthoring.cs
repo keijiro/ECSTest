@@ -4,21 +4,22 @@ using UnityEngine;
 public class SpawnerAuthoring : MonoBehaviour
 {
     [SerializeField] GameObject _prefab = null;
-    [SerializeField] int _spawnCount = 10;
+    [SerializeField] float _spawnPerSecond = 10;
 
     class Baker : Baker<SpawnerAuthoring>
     {
         public override void Bake(SpawnerAuthoring authoring)
-        {
-            var entity = GetEntity(TransformUsageFlags.None);
-            var prefab = GetEntity(authoring._prefab, TransformUsageFlags.Dynamic);
-            AddComponent(entity, new Spawner{Prefab = prefab, SpawnCount = authoring._spawnCount});
-        }
+          => AddComponent(
+               GetEntity(TransformUsageFlags.None),
+               new Spawner{Prefab = GetEntity(authoring._prefab, TransformUsageFlags.Dynamic),
+                           PerSecond = authoring._spawnPerSecond});
     }
 }
 
 struct Spawner : IComponentData
 {
     public Entity Prefab;
-    public int SpawnCount;
+    public float PerSecond;
+    public float Timer;
+    public uint Seed;
 }
