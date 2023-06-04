@@ -24,7 +24,8 @@ partial struct VoxelUpdateJob : IJobEntity
         var rand2 = hash.Float(2);
 
         // Move/shrink
-        xform = xform.Translate(math.float3(0.1f, -2.0f, 0.3f) * (rand2 + 0.1f) * Delta);
+        var vel = math.float3(0.1f, -2.0f, 0.3f) * (rand2 + 0.1f);
+        xform = xform.Translate(vel * Delta);
         xform = xform.ApplyScale(math.lerp(0.9f, 0.98f, rand1));
     }
 }
