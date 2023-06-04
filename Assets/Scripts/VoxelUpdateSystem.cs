@@ -8,13 +8,13 @@ public partial struct VoxelUpdateSystem : ISystem
 {
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
-      => new VoxelUpdateJob(){dt = SystemAPI.Time.DeltaTime}.Schedule();
+      => new VoxelUpdateJob(){Delta = SystemAPI.Time.DeltaTime}.ScheduleParallel();
 }
 
 [BurstCompile]
 partial struct VoxelUpdateJob : IJobEntity
 {
-    public float dt;
+    public float Delta;
 
     void Execute(ref LocalTransform xform, in Voxel voxel)
     {
@@ -24,7 +24,7 @@ partial struct VoxelUpdateJob : IJobEntity
         var rand2 = hash.Float(2);
 
         // Move/shrink
-        xform = xform.Translate(math.float3(0.1f, -2.0f, 0.3f) * (rand2 + 0.1f) * dt);
+        xform = xform.Translate(math.float3(0.1f, -2.0f, 0.3f) * (rand2 + 0.1f) * Delta);
         xform = xform.ApplyScale(math.lerp(0.9f, 0.98f, rand1));
     }
 }

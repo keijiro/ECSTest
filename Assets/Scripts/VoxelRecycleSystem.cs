@@ -6,15 +6,19 @@ public partial struct LifetimeSystem : ISystem
 {
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
-    {
-        var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
-        var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
-
-        foreach (var (xform, entity) in
-                 SystemAPI.Query<RefRO<LocalTransform>>().WithAll<Voxel>().WithEntityAccess())
-        {
-            if (xform.ValueRO.Scale < 0.1f) ecb.DestroyEntity(entity);
-        }
-    }
+      => new VoxelRecycleJob()
+           { Commands = SystemAPI.GetSingleton
+               <BeginSimulationEntityCommandBufferSystem.Singleton>()
+               .CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter() }.ScheduleParallel();
 }
 
+[BurstCompile]
+partial struct VoxelRecycleJob : IJobEntity
+{
+    public EntityCommandBuffer.ParallelWriter Commands;
+
+    void Execute([ChunkIndexInQuery] int chunkIndexInQuery,Entity entity, in LocalTransform xform, in Voxel voxel)
+    {
+        if (xform.Scale < 0.1f) Commands.DestroyEntity(chunkIndexInQuery, entity);
+    }
+}
