@@ -8,7 +8,6 @@ public partial struct LifetimeSystem : ISystem
       => SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>()
            .CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();
 
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
       => new VoxelRecycleJob(){CB = NewCommandBuffer(state)}.ScheduleParallel();
 }

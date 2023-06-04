@@ -6,7 +6,6 @@ using Klak.Math;
 
 public partial struct VoxelUpdateSystem : ISystem
 {
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
       => new VoxelUpdateJob(){Delta = SystemAPI.Time.DeltaTime}.ScheduleParallel();
 }
