@@ -28,6 +28,10 @@ public partial struct SpawnerSystem : ISystem
             var p0 = xform.ValueRO.Position;
             var ext = spawner.ValueRO.Extent;
 
+            // Collision filter
+            var filter = CollisionFilter.Default;
+            filter.CollidesWith = (uint)spawner.ValueRO.Mask;
+
             // Racast loop
             for (var i = 0; i < count; i++)
             {
@@ -36,7 +40,7 @@ public partial struct SpawnerSystem : ISystem
                 var ray = new RaycastInput()
                   { Start = p0 + math.float3(disp, -ext.z),
                     End   = p0 + math.float3(disp, +ext.z),
-                    Filter = CollisionFilter.Default };
+                    Filter = filter };
 
                 var hit = new RaycastHit();
                 if (!world.CastRay(ray, out hit)) continue;

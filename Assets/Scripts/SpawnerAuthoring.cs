@@ -7,6 +7,7 @@ public class SpawnerAuthoring : MonoBehaviour
 {
     [SerializeField] GameObject _prefab = null;
     [SerializeField] float3 _extent = 1;
+    [SerializeField] LayerMask _mask = 0;
     [SerializeField] float _frequency = 100;
     [SerializeField] uint _seed = 0xdeadbeef;
 
@@ -20,6 +21,7 @@ public class SpawnerAuthoring : MonoBehaviour
                     Prefab = GetEntity(authoring._prefab,
                                        TransformUsageFlags.Dynamic),
                     Extent = authoring._extent,
+                    Mask = authoring._mask.value,
                     Frequency = authoring._frequency,
                     Random = new Random(authoring._seed)
                 });
@@ -30,6 +32,7 @@ struct Spawner : IComponentData
 {
     public Entity Prefab;
     public float3 Extent;
+    public int Mask;
     public float Frequency;
     public Random Random;
     public float Timer;

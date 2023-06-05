@@ -172,6 +172,9 @@ MonoBehaviour:
     x: 3
     y: 3
     z: 5
+  _mask:
+    serializedVersion: 2
+    m_Bits: 512
   _frequency: 10000
   _seed: 20000
 --- !u!1 &1068031665
