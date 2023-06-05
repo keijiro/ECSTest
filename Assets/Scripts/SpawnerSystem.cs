@@ -1,72 +1,50 @@
-using UnityEngine;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using Unity.Physics;
 
 public partial struct SpawnerSystem : ISystem
 {
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        foreach (var (xform, spawner) in
-                 SystemAPI.Query<RefRO<LocalTransform>, RefRO<Spawner>>())
-            RunSpawner(ref state, xform.ValueRO, spawner.ValueRO);
-    }
+        var dt = SystemAPI.Time.DeltaTime;
 
-    void RunSpawner
-      (ref SystemState state, in LocalTransform xform, in Spawner spawner)
-    {
-        // Total count of rays
-        var total = spawner.Resolution.x * spawner.Resolution.y;
-
-        // Raycast struct array
-        using var rays = new NativeArray<RaycastCommand>(total, Allocator.TempJob);
-        using var hits = new NativeArray<RaycastHit>(total, Allocator.TempJob);
-
-        // Raycast setup
+        foreach (var (spawner, xform) in
+                 SystemAPI.Query<RefRW<Spawner>,
+                                 RefRO<LocalTransform>>())
         {
-            var slice = new NativeSlice<RaycastCommand>(rays);
-            var dir = math.float3(0, 0, 1);
-            var dist = spawner.Extent.z * 2;
-            var idx = 0;
+            var world = SystemAPI.GetSingleton
+              <PhysicsWorldSingleton>().PhysicsWorld;
 
-            for (var iy = 0; iy < spawner.Resolution.y; iy++)
+            // Timer update
+            var nt = spawner.ValueRO.Timer + spawner.ValueRO.Frequency * dt;
+            var count = (int)nt;
+            spawner.ValueRW.Timer = nt - count;
+
+            // Raycast base
+            var p0 = xform.ValueRO.Position;
+            var ext = spawner.ValueRO.Extent;
+
+            // Racast loop
+            for (var i = 0; i < count; i++)
             {
-                for (var ix = 0; ix < spawner.Resolution.x; ix++)
-                {
-                    var u = (float)ix / (spawner.Resolution.x - 1);
-                    var v = (float)iy / (spawner.Resolution.y - 1);
+                var disp = spawner.ValueRW.Random.NextFloat2(-ext.xy, ext.xy);
 
-                    var x = math.lerp(-spawner.Extent.x, spawner.Extent.x, u);
-                    var y = math.lerp(-spawner.Extent.y, spawner.Extent.y, v);
+                var ray = new RaycastInput()
+                  { Start = p0 + math.float3(disp, -ext.z),
+                    End   = p0 + math.float3(disp, +ext.z),
+                    Filter = CollisionFilter.Default };
 
-                    var p = xform.Position + math.float3(x, y, -spawner.Extent.z);
+                var hit = new RaycastHit();
+                if (!world.CastRay(ray, out hit)) continue;
 
-                    slice[idx++] = new RaycastCommand(p, dir, QueryParameters.Default, dist);
-                }
-            }
-        }
-
-        // Raycast batch
-        RaycastCommand.ScheduleBatch(rays, hits, 16).Complete();
-
-        // Hit count
-        var count = 0;
-        for (var i = 0; i < total; i++)
-            if (hits[i].collider != null) count++;
-
-        // Mass instantiation
-        {
-            var prefab = spawner.Prefab;
-            var instances = state.EntityManager.Instantiate(prefab, count, Allocator.Temp);
-
-            var idx = 0;
-            for (var i = 0; i < total; i++)
-            {
-                if (hits[i].collider == null) continue;
-                var xformc = SystemAPI.GetComponentRW<LocalTransform>(instances[idx++]);
-                xformc.ValueRW.Position = hits[i].point;
+                // Prefab instantiation
+                var spawned = state.EntityManager.Instantiate(spawner.ValueRO.Prefab);
+                var cx = SystemAPI.GetComponentRW<LocalTransform>(spawned);
+                cx.ValueRW.Position = hit.Position;
             }
         }
     }
