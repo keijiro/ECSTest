@@ -166,14 +166,25 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
-    "jp.keijiro.klak.math": {
-      "version": "2.0.0",
+    "jp.keijiro.cmu-mocap": {
+      "version": "1.0.0",
       "depth": 0,
       "source": "registry",
-      "dependencies": {
-        "com.unity.mathematics": "1.2.6"
-      },
+      "dependencies": {},
       "url": "https://registry.npmjs.com"
+    },
+    "jp.keijiro.neolowman": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://registry.npmjs.com"
+    },
+    "com.unity.modules.animation": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
     },
     "com.unity.modules.assetbundle": {
       "version": "1.0.0",
