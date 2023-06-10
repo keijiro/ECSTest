@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525059266}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -169,13 +169,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefab: {fileID: 8464841909375447528, guid: 18509ee77a9664363986cdc1ee472779, type: 3}
   _extent:
-    x: 3
-    y: 3
-    z: 5
+    x: 2
+    y: 2
+    z: 3
   _mask:
     serializedVersion: 2
     m_Bits: 512
-  _frequency: 10000
+  _frequency: 25000
   _seed: 20000
 --- !u!1 &1068031665
 GameObject:
