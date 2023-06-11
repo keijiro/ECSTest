@@ -5,6 +5,7 @@
     "com.unity.render-pipelines.universal": "14.0.8",
     "com.unity.test-framework": "1.1.33",
     "jp.keijiro.cmu-mocap": "1.0.0",
+    "jp.keijiro.klak.motion": "1.0.2",
     "jp.keijiro.neolowman": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.uielements": "1.0.0"
