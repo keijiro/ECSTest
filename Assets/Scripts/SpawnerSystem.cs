@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using Unity.Physics;
 
+[BurstCompile(CompileSynchronously = true)]
 public partial struct SpawnerSystem : ISystem
 {
     [BurstCompile]

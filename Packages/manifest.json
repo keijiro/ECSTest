@@ -2,7 +2,7 @@
   "dependencies": {
     "com.unity.entities.graphics": "1.0.10",
     "com.unity.physics": "1.0.10",
-    "com.unity.render-pipelines.universal": "14.0.7",
+    "com.unity.render-pipelines.universal": "14.0.8",
     "com.unity.test-framework": "1.1.33",
     "jp.keijiro.cmu-mocap": "1.0.0",
     "jp.keijiro.neolowman": "1.0.0",
