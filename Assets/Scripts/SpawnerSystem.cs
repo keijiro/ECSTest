@@ -50,6 +50,7 @@ public partial struct SpawnerSystem : ISystem
                 var spawned = state.EntityManager.Instantiate(spawner.ValueRO.Prefab);
                 var cx = SystemAPI.GetComponentRW<LocalTransform>(spawned);
                 cx.ValueRW.Position = hit.Position;
+                cx.ValueRW.Rotation = spawner.ValueRW.Random.NextQuaternionRotation();
             }
         }
     }
