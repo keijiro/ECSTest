@@ -1,43 +1,44 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Transforms;
-using Unity.Mathematics;
 
 public partial struct BoxUpdateSystem : ISystem
 {
-    EntityCommandBuffer.ParallelWriter NewCommandWriter(in SystemState state)
-      => SystemAPI.GetSingleton
-         <BeginSimulationEntityCommandBufferSystem.Singleton>()
-           .CreateCommandBuffer(state.WorldUnmanaged)
-           .AsParallelWriter();
-
     public void OnUpdate(ref SystemState state)
-      => new BoxUpdateJob()
-         {
-             Commands = NewCommandWriter(state),
-             DeltaTime = SystemAPI.Time.DeltaTime,
-             Scale = SystemAPI.GetSingleton<Voxelizer>().VoxelSize
-         }
-         .ScheduleParallel();
+    {
+        if (!SystemAPI.HasSingleton<Voxelizer>()) return;
+
+        var writer = 
+          SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>()
+          .CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();
+
+        var job = new BoxUpdateJob()
+          { Commands = writer,
+            Voxelizer = SystemAPI.GetSingleton<Voxelizer>(),
+            DeltaTime = SystemAPI.Time.DeltaTime };
+
+        job.ScheduleParallel();
+    }
 }
 
-[BurstCompile]
+[BurstCompile(CompileSynchronously = true)]
 partial struct BoxUpdateJob : IJobEntity
 {
     public EntityCommandBuffer.ParallelWriter Commands;
+    public Voxelizer Voxelizer;
     public float DeltaTime;
-    public float Scale;
 
     void Execute([ChunkIndexInQuery] int index,
                  Entity entity, ref LocalTransform xform, ref Box box)
     {
         box.Time += DeltaTime;
-        if (box.Time > 0.2f)
+
+        xform.Position.y -= Voxelizer.Gravity * box.Time;
+
+        var p01 = box.Time / Voxelizer.VoxelLife;
+        xform.Scale = Voxelizer.VoxelSize * (1 - p01 * p01 * p01 * p01);
+
+        if (box.Time > Voxelizer.VoxelLife)
             Commands.DestroyEntity(index, entity);
-        else
-        {
-            xform.Position.y -= box.Time * 0.1f;
-            xform.Scale = Scale;
-        }
     }
 }
