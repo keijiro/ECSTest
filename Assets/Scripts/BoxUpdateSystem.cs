@@ -15,7 +15,8 @@ public partial struct BoxUpdateSystem : ISystem
       => new BoxUpdateJob()
          {
              Commands = NewCommandWriter(state),
-             DeltaTime = SystemAPI.Time.DeltaTime
+             DeltaTime = SystemAPI.Time.DeltaTime,
+             Scale = SystemAPI.GetSingleton<Voxelizer>().VoxelSize
          }
          .ScheduleParallel();
 }
@@ -25,14 +26,18 @@ partial struct BoxUpdateJob : IJobEntity
 {
     public EntityCommandBuffer.ParallelWriter Commands;
     public float DeltaTime;
+    public float Scale;
 
     void Execute([ChunkIndexInQuery] int index,
                  Entity entity, ref LocalTransform xform, ref Box box)
     {
-        box.Lifetime -= DeltaTime;
-        if (box.Lifetime <= 0)
+        box.Time += DeltaTime;
+        if (box.Time > 0.2f)
             Commands.DestroyEntity(index, entity);
         else
-            xform.Scale = math.min(1, box.Lifetime * 10);
+        {
+            xform.Position.y -= box.Time * 0.1f;
+            xform.Scale = Scale;
+        }
     }
 }

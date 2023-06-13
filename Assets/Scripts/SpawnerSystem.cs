@@ -38,6 +38,9 @@ public partial struct SpawnerSystem : ISystem
             {
                 var disp = spawner.ValueRW.Random.NextFloat2(-ext.xy, ext.xy);
 
+                var vox = SystemAPI.GetSingleton<Voxelizer>();
+                disp = math.floor(disp / vox.VoxelSize) * vox.VoxelSize;
+
                 var ray = new RaycastInput()
                   { Start = p0 + math.float3(disp, -ext.z),
                     End   = p0 + math.float3(disp, +ext.z),
@@ -50,7 +53,6 @@ public partial struct SpawnerSystem : ISystem
                 var spawned = state.EntityManager.Instantiate(spawner.ValueRO.Prefab);
                 var cx = SystemAPI.GetComponentRW<LocalTransform>(spawned);
                 cx.ValueRW.Position = hit.Position;
-                cx.ValueRW.Rotation = spawner.ValueRW.Random.NextQuaternionRotation();
             }
         }
     }
