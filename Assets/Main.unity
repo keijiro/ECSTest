@@ -362,7 +362,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &511053738
 PrefabInstance:
@@ -372,21 +372,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 100000, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
       propertyPath: m_Name
-      value: Neo Optimized
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: Dancer 2
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -433,17 +425,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: 67bff2ff845f542228b923c58bed698d, type: 2}
     - target: {fileID: 13700000, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 13700000, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
       propertyPath: m_Materials.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 13700000, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 9ee282692e0ba469aa8837f0ecf5e606, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -659,7 +643,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &761541545
 GameObject:
@@ -875,21 +859,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 100000, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
       propertyPath: m_Name
-      value: Neo Optimized
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: Dancer 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -936,17 +912,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: 2a9a5b2b378e44ccc8245b5eca097937, type: 2}
     - target: {fileID: 13700000, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 13700000, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
       propertyPath: m_Materials.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 13700000, guid: 427d34d6970bfe74f99a26b6745ccbc5, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 9ee282692e0ba469aa8837f0ecf5e606, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
