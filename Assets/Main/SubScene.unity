@@ -175,7 +175,7 @@ MonoBehaviour:
   _mask:
     serializedVersion: 2
     m_Bits: 512
-  _frequency: 30000
+  _frequency: 60000
   _seed: 20000
 --- !u!1 &1068031665
 GameObject:
