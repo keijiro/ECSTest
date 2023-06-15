@@ -1,3 +1,4 @@
+using UnityEngine;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -42,13 +43,15 @@ partial struct BoxUpdateJob : IJobEntity
         var p01 = box.Time / Voxelizer.VoxelLife;
 
         xform.Position.y -= Voxelizer.Gravity * box.Time;
-        xform.Scale = Voxelizer.VoxelSize * (1 - p01 * p01 * p01 * p01);
+
+        var p01_ex = p01 * p01 * p01;
+        xform.Scale = Voxelizer.VoxelSize * (1 - p01_ex * p01_ex * p01_ex);
 
         if (box.Time > Voxelizer.VoxelLife)
             Commands.DestroyEntity(index, entity);
 
-        var hue = math.frac(xform.Position.z * Voxelizer.ColorFrequency +
-                            Time * Voxelizer.ColorSpeed);
-        color.Value = (UnityEngine.Vector4)UnityEngine.Color.HSVToRGB(hue, 1, 1);
+        var hue = xform.Position.z * Voxelizer.ColorFrequency;
+        hue = math.frac(hue + Time * Voxelizer.ColorSpeed);
+        color.Value = (Vector4)Color.HSVToRGB(hue, 1, 1);
     }
 }
