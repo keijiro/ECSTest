@@ -313,10 +313,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _voxelSize: 0.05
-  _voxelLife: 0.3
+  _voxelLife: 0.6
   _colorFrequency: 0.6
   _colorSpeed: 0.2
-  _gravity: 0.2
+  _gravity: 8
 --- !u!4 &2043380763
 Transform:
   m_ObjectHideFlags: 0

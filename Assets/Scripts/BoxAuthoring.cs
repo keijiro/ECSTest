@@ -16,4 +16,5 @@ public class BoxAuthoring : MonoBehaviour
 public struct Box : IComponentData
 {
     public float Time;
+    public float Velocity;
 }

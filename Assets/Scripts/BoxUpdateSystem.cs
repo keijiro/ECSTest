@@ -42,9 +42,15 @@ partial struct BoxUpdateJob : IJobEntity
         box.Time += DeltaTime;
         var p01 = box.Time / Voxelizer.VoxelLife;
 
-        xform.Position.y -= Voxelizer.Gravity * box.Time;
+        box.Velocity -= Voxelizer.Gravity * DeltaTime;
+        xform.Position.y += box.Velocity * DeltaTime;
+        if (xform.Position.y < 0)
+        {
+            box.Velocity *= -1;
+            xform.Position.y = -xform.Position.y;
+        }
 
-        var p01_ex = p01 * p01 * p01;
+        var p01_ex = p01 * p01;
         xform.Scale = Voxelizer.VoxelSize * (1 - p01_ex * p01_ex * p01_ex);
 
         if (box.Time > Voxelizer.VoxelLife)
