@@ -17,8 +17,7 @@ public partial struct SpawnerSystem : ISystem
                  SystemAPI.Query<RefRW<Spawner>,
                                  RefRO<LocalTransform>>())
         {
-            var world = SystemAPI.GetSingleton
-              <PhysicsWorldSingleton>().PhysicsWorld;
+            var world = SystemAPI.GetSingleton<PhysicsWorldSingleton>().PhysicsWorld;
 
             // Timer update
             var nt = spawner.ValueRO.Timer + spawner.ValueRO.Frequency * dt;

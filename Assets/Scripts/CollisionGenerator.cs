@@ -11,15 +11,28 @@ using MeshCollider = Unity.Physics.MeshCollider;
 [BurstCompile(CompileSynchronously = true)]
 public class CollisionGenerator : MonoBehaviour
 {
+    #region Editable attributes
+
     [SerializeField] SkinnedMeshRenderer _source = null;
+
+    #endregion
+
+    #region Private fields
 
     Mesh _mesh;
     Entity _entity;
 
+    #endregion
+
+    #region DOTS interop
+
     [BurstCompile]
     static void CreateCollider
-      (in EntityManager manager, in Entity entity,
-       in NativeArray<float3> vtx, in NativeArray<int3> idx, int layer)
+      (in EntityManager manager,
+       in Entity entity,
+       in NativeArray<float3> vtx,
+       in NativeArray<int3> idx,
+       int layer)
     {
         var filter = CollisionFilter.Default;
         filter.CollidesWith = (uint)layer;
@@ -27,6 +40,10 @@ public class CollisionGenerator : MonoBehaviour
         var collider = MeshCollider.Create(vtx, idx, filter);
         manager.SetComponentData(entity, new PhysicsCollider{Value = collider});
     }
+
+    #endregion
+
+    #region MonoBehaviour implementation
 
     void Start()
     {
@@ -70,9 +87,11 @@ public class CollisionGenerator : MonoBehaviour
         };
         manager.SetComponentData(_entity, xform);
 
-        // Mesh collider update (Bursted)
+        // Mesh collider update
         Profiler.BeginSample("MeshCollider Update");
         CreateCollider(manager, _entity, vtx_re, idx_re, gameObject.layer);
         Profiler.EndSample();
     }
+
+    #endregion
 }

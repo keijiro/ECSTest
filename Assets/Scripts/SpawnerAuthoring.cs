@@ -13,18 +13,18 @@ public class SpawnerAuthoring : MonoBehaviour
 
     class Baker : Baker<SpawnerAuthoring>
     {
-        public override void Bake(SpawnerAuthoring authoring)
-          => AddComponent
-               (GetEntity(TransformUsageFlags.Dynamic),
-                new Spawner
-                {
-                    Prefab = GetEntity(authoring._prefab,
-                                       TransformUsageFlags.Dynamic),
-                    Extent = authoring._extent,
-                    Mask = authoring._mask.value,
-                    Frequency = authoring._frequency,
-                    Random = new Random(authoring._seed)
-                });
+        public override void Bake(SpawnerAuthoring src)
+        {
+            var data = new Spawner()
+            {
+                Prefab = GetEntity(src._prefab, TransformUsageFlags.Dynamic),
+                Extent = src._extent,
+                Mask = src._mask.value,
+                Frequency = src._frequency,
+                Random = new Random(src._seed)
+            };
+            AddComponent(GetEntity(TransformUsageFlags.Dynamic), data);
+        }
     }
 }
 

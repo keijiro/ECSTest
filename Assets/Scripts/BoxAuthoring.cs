@@ -5,11 +5,8 @@ public class BoxAuthoring : MonoBehaviour
 {
     class Baker : Baker<BoxAuthoring>
     {
-        public override void Bake(BoxAuthoring authoring)
-        {
-            var entity = GetEntity(TransformUsageFlags.Dynamic);
-            AddComponent(entity, new Box());
-        }
+        public override void Bake(BoxAuthoring src)
+          => AddComponent(GetEntity(TransformUsageFlags.Dynamic), new Box());
     }
 }
 

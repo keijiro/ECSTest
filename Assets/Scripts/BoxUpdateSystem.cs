@@ -5,8 +5,10 @@ using Unity.Mathematics;
 using Unity.Rendering;
 using Unity.Transforms;
 
+[BurstCompile(CompileSynchronously = true)]
 public partial struct BoxUpdateSystem : ISystem
 {
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         if (!SystemAPI.HasSingleton<Voxelizer>()) return;
@@ -39,23 +41,33 @@ partial struct BoxUpdateJob : IJobEntity
                  ref Box box,
                  ref URPMaterialPropertyBaseColor color)
     {
+        // Time step
         box.Time += DeltaTime;
-        var p01 = box.Time / Voxelizer.VoxelLife;
 
+        // Expiration
+        if (box.Time > Voxelizer.VoxelLife)
+        {
+            Commands.DestroyEntity(index, entity);
+            return;
+        }
+
+        // Dynamics
         box.Velocity -= Voxelizer.Gravity * DeltaTime;
         xform.Position.y += box.Velocity * DeltaTime;
+
+        // Reflection on the ground
         if (xform.Position.y < 0)
         {
             box.Velocity *= -1;
             xform.Position.y = -xform.Position.y;
         }
 
-        var p01_ex = p01 * p01;
-        xform.Scale = Voxelizer.VoxelSize * (1 - p01_ex * p01_ex * p01_ex);
+        // Scaling animation
+        var p01 = box.Time / Voxelizer.VoxelLife;
+        var p01_2 = p01 * p01;
+        xform.Scale = Voxelizer.VoxelSize * (1 - p01_2 * p01_2);
 
-        if (box.Time > Voxelizer.VoxelLife)
-            Commands.DestroyEntity(index, entity);
-
+        // Color animation
         var hue = xform.Position.z * Voxelizer.ColorFrequency;
         hue = math.frac(hue + Time * Voxelizer.ColorSpeed);
         color.Value = (Vector4)Color.HSVToRGB(hue, 1, 1);

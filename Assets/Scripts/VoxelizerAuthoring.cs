@@ -11,13 +11,18 @@ public class VoxelizerAuthoring : MonoBehaviour
 
     class Baker : Baker<VoxelizerAuthoring>
     {
-        public override void Bake(VoxelizerAuthoring self)
-          => AddComponent(GetEntity(TransformUsageFlags.None),
-                          new Voxelizer(){VoxelSize = self._voxelSize,
-                                          VoxelLife = self._voxelLife,
-                                          ColorFrequency = self._colorFrequency,
-                                          ColorSpeed = self._colorSpeed,
-                                          Gravity = self._gravity});
+        public override void Bake(VoxelizerAuthoring src)
+        {
+            var data = new Voxelizer()
+            {
+                VoxelSize = src._voxelSize,
+                VoxelLife = src._voxelLife,
+                ColorFrequency = src._colorFrequency,
+                ColorSpeed = src._colorSpeed,
+                Gravity = src._gravity
+            };
+            AddComponent(GetEntity(TransformUsageFlags.None), data);
+        }
     }
 }
 
