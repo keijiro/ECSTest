@@ -39,7 +39,7 @@ partial struct BoxUpdateJob : IJobEntity
                  Entity entity,
                  ref LocalTransform xform,
                  ref Box box,
-                 ref URPMaterialPropertyBaseColor color)
+                 ref HDRPMaterialPropertyBaseColor color)
     {
         // Time step
         box.Time += DeltaTime;

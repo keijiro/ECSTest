@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7698722235778028853}
   - component: {fileID: 3550461358784682899}
   - component: {fileID: -1865010448514128815}
-  - component: {fileID: -3950760790068962413}
+  - component: {fileID: 649815276008157633}
   m_Layer: 10
   m_Name: Box
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8464841909375447528}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.049999997, y: 0.049999997, z: 0.049999997}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d5ffd61366f46a797117c9f2421c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-3950760790068962413
+--- !u!114 &649815276008157633
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8464841909375447528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54b6467bcd530cd4d809fae70ea0ca9d, type: 3}
+  m_Script: {fileID: 11500000, guid: cab9220ac35644b8a81550eafc54d3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 1, g: 0, b: 0, a: 1}
+  Value:
+    x: 0
+    y: 0
+    z: 0
+    w: 0
